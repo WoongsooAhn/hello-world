@@ -59,6 +59,54 @@
     }
     .modes button.active { background: #333; color: #fff; border-color: #333; }
 
+    .presets {
+      width: 100%;
+      max-width: 460px;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .presets button {
+      width: 100%;
+      height: 52px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 1px 4px rgba(32,33,36,0.12);
+      transition: filter 0.12s, transform 0.1s;
+    }
+    .presets button:hover { filter: brightness(0.96); transform: translateY(-1px); }
+    .presets button:active { transform: translateY(0); }
+    .p-pay   { background: #ffcd00; color: #191919 !important; }
+    .p-rival { background: #4b5563; }
+    .p-kakao { background: #191919; }
+    .presets-title {
+      width: 100%;
+      max-width: 460px;
+      margin-top: 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #9aa0a6;
+      text-align: left;
+    }
+    .kb-title {
+      width: 100%;
+      max-width: 460px;
+      margin-top: 22px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #9aa0a6;
+      text-align: left;
+    }
+
     .keyboard {
       width: 100%;
       max-width: 460px;
@@ -128,6 +176,15 @@
     </svg>
     <input type="text" id="query" placeholder="글자를 눌러 검색어를 입력하세요" readonly />
   </div>
+
+  <div class="presets-title">📰 빠른 뉴스 검색</div>
+  <div class="presets" id="presets">
+    <button class="p-pay"   data-q="카카오페이">💜 카카오페이 뉴스</button>
+    <button class="p-rival" data-q="토스 OR 네이버페이 OR 페이코 OR 카카오페이 경쟁">⚔️ 카카오페이 경쟁사 뉴스</button>
+    <button class="p-kakao" data-q="카카오">🟡 카카오 뉴스</button>
+  </div>
+
+  <div class="kb-title">⌨️ 직접 검색어 입력</div>
 
   <div class="modes">
     <button data-mode="ko" class="active">한글</button>
@@ -210,14 +267,16 @@
       else committed = committed.slice(0, -1);
       render();
     }
-    function doSearch(type) {
-      commit();
-      const q = committed.trim();
+    function openSearch(q, type) {
       if (!q) return;
       const base = type === 'news'
         ? 'https://www.google.com/search?tbm=nws&q='
         : 'https://www.google.com/search?q=';
       window.open(base + encodeURIComponent(q), '_blank');
+    }
+    function doSearch(type) {
+      commit();
+      openSearch(committed.trim(), type);
     }
 
     // ===== 키보드 레이아웃 =====
@@ -239,6 +298,11 @@
       });
     }
 
+    document.getElementById('presets').addEventListener('click', e => {
+      const b = e.target.closest('button[data-q]');
+      if (!b) return;
+      openSearch(b.dataset.q, 'news');
+    });
     document.getElementById('keyboard').addEventListener('click', e => {
       const b = e.target.closest('button[data-key]');
       if (!b) return;
