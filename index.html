@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>내 검색 사이트</title>
+  <title>카카오ax검색</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -12,107 +12,261 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      background: #fff;
+      background: #f7f8fa;
       color: #202124;
-      padding: 20px;
+      padding: 26px 16px 36px;
     }
     .logo {
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin-bottom: 28px;
-      letter-spacing: -2px;
-    }
-    .logo .b { color: #4285f4; }
-    .logo .r { color: #ea4335; }
-    .logo .y { color: #fbbc05; }
-    .logo .g { color: #34a853; }
-    form {
-      width: 100%;
-      max-width: 560px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #333333;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
     }
     .search-box {
       width: 100%;
+      max-width: 460px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      border: 1px solid #dfe1e5;
-      border-radius: 999px;
-      padding: 14px 20px;
-      box-shadow: 0 1px 6px rgba(32,33,36,0.15);
-      transition: box-shadow 0.2s;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid #e6e8eb;
+      border-radius: 12px;
+      padding: 11px 16px;
+      box-shadow: 0 1px 4px rgba(32,33,36,0.08);
     }
-    .search-box:focus-within {
-      box-shadow: 0 1px 10px rgba(32,33,36,0.28);
-      border-color: transparent;
-    }
-    .search-box svg { flex-shrink: 0; }
-    input[type="text"] {
+    .search-box input {
       flex: 1;
       border: none;
       outline: none;
       font-size: 1.05rem;
       background: transparent;
     }
-    .buttons {
-      margin-top: 26px;
+    .modes {
       display: flex;
-      gap: 12px;
+      gap: 6px;
+      margin: 14px 0 10px;
     }
-    button {
-      font-size: 0.9rem;
-      padding: 10px 18px;
-      border: 1px solid #f8f9fa;
-      border-radius: 6px;
-      background: #f8f9fa;
-      color: #3c4043;
+    .modes button {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #e0e2e5;
+      background: #fff;
+      font-size: 0.85rem;
+      color: #5f6368;
       cursor: pointer;
+      transition: all 0.12s;
     }
-    button:hover {
-      border-color: #dadce0;
-      box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    .modes button.active { background: #333; color: #fff; border-color: #333; }
+
+    .keyboard {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      margin-bottom: 4px;
     }
+    .keyboard .sep { flex-basis: 100%; height: 0; }
+    .keyboard button {
+      width: 36px;
+      height: 40px;
+      font-size: 0.95rem;
+      color: #3c4043;
+      border: none;
+      border-radius: 9px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(32,33,36,0.10);
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .keyboard button:hover { background: #f1f3f4; transform: translateY(-1px); }
+    .keyboard button:active { background: #e4e7ea; transform: translateY(0); }
+
+    .controls {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .controls button {
+      flex: 1;
+      min-width: 72px;
+      height: 44px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: filter 0.12s;
+    }
+    .controls button:hover { filter: brightness(0.95); }
+    .btn-space { background: #eceff1; color: #333; flex: 2; }
+    .btn-back  { background: #fdecea; color: #c5221f; }
+    .btn-clear { background: #f1f3f4; color: #5f6368; }
+    .btn-web   { background: #1a73e8; color: #fff; }
+    .btn-news  { background: #188038; color: #fff; }
+
     footer {
-      position: fixed;
-      bottom: 16px;
-      font-size: 0.8rem;
-      color: #70757a;
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: #9aa0a6;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="logo">
-    <span class="b">우</span><span class="r">웅</span><span class="y">수</span><span class="g">검색</span>
+  <div class="logo">카카오ax검색</div>
+
+  <div class="search-box">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
+            stroke="#9aa0a6" stroke-width="2" stroke-linecap="round" />
+    </svg>
+    <input type="text" id="query" placeholder="글자를 눌러 검색어를 입력하세요" readonly />
   </div>
 
-  <form action="https://www.google.com/search" method="get" target="_blank">
-    <div class="search-box">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
-              stroke="#9aa0a6" stroke-width="2" stroke-linecap="round" />
-      </svg>
-      <input type="text" name="q" placeholder="검색어를 입력하세요" autofocus autocomplete="off" />
-    </div>
-    <div class="buttons">
-      <button type="submit">검색</button>
-      <button type="button" onclick="feelLucky()">오늘의 기분</button>
-    </div>
-  </form>
+  <div class="modes">
+    <button data-mode="ko" class="active">한글</button>
+    <button data-mode="en">ABC</button>
+    <button data-mode="num">123</button>
+  </div>
 
-  <footer>내가 만든 검색 사이트 · Render로 배포됨</footer>
+  <div class="keyboard" id="keyboard"></div>
+
+  <div class="controls">
+    <button class="btn-space" data-action="space">스페이스</button>
+    <button class="btn-back"  data-action="back">⌫ 지우기</button>
+    <button class="btn-clear" data-action="clear">전체삭제</button>
+    <button class="btn-web"   data-action="web">🔍 웹 검색</button>
+    <button class="btn-news"  data-action="news">📰 뉴스 검색</button>
+  </div>
+
+  <footer>화면 키보드로 클릭 입력 · 카카오ax검색 · Render로 배포됨</footer>
 
   <script>
-    function feelLucky() {
-      const q = document.querySelector('input[name="q"]').value.trim();
-      if (q) {
-        window.open("https://www.google.com/search?q=" + encodeURIComponent(q) + "&btnI=1", "_blank");
-      } else {
-        window.open("https://www.google.com", "_blank");
-      }
+    // ===== 한글 조합 오토마타 =====
+    const CHO  = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'.split('');
+    const JUNG = 'ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ'.split('');
+    const JONG = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+    const JONG_COMBINE = {'ㄱㅅ':'ㄳ','ㄴㅈ':'ㄵ','ㄴㅎ':'ㄶ','ㄹㄱ':'ㄺ','ㄹㅁ':'ㄻ','ㄹㅂ':'ㄼ','ㄹㅅ':'ㄽ','ㄹㅌ':'ㄾ','ㄹㅍ':'ㄿ','ㄹㅎ':'ㅀ','ㅂㅅ':'ㅄ'};
+    const JONG_SPLIT = {'ㄳ':['ㄱ','ㅅ'],'ㄵ':['ㄴ','ㅈ'],'ㄶ':['ㄴ','ㅎ'],'ㄺ':['ㄹ','ㄱ'],'ㄻ':['ㄹ','ㅁ'],'ㄼ':['ㄹ','ㅂ'],'ㄽ':['ㄹ','ㅅ'],'ㄾ':['ㄹ','ㅌ'],'ㄿ':['ㄹ','ㅍ'],'ㅀ':['ㄹ','ㅎ'],'ㅄ':['ㅂ','ㅅ']};
+    const isCons = c => CHO.includes(c);
+    const canJong = c => JONG.includes(c);
+
+    let committed = '';
+    let st = { cho:'', jung:'', jong:'' };
+    let mode = 'ko';
+
+    function compose() {
+      if (!st.cho && !st.jung) return '';
+      if (st.cho && !st.jung) return st.cho;
+      if (!st.cho && st.jung) return st.jung;
+      const ci = CHO.indexOf(st.cho), ji = JUNG.indexOf(st.jung);
+      const ki = st.jong ? JONG.indexOf(st.jong) : 0;
+      if (ci < 0 || ji < 0) return (st.cho||'') + (st.jung||'');
+      return String.fromCharCode(0xAC00 + (ci*21 + ji)*28 + ki);
     }
+    function commit() { committed += compose(); st = { cho:'', jung:'', jong:'' }; }
+    function render() { document.getElementById('query').value = committed + compose(); }
+
+    function handleCons(c) {
+      if (!st.cho && !st.jung && !st.jong) { st.cho = c; return; }
+      if (st.cho && !st.jung) { commit(); st.cho = c; return; }
+      if (st.jung && !st.jong) {
+        if (st.cho) { if (canJong(c)) st.jong = c; else { commit(); st.cho = c; } }
+        else { commit(); st.cho = c; }
+        return;
+      }
+      if (st.jong) {
+        const comb = JONG_COMBINE[st.jong + c];
+        if (comb) st.jong = comb; else { commit(); st.cho = c; }
+        return;
+      }
+      commit(); st.cho = c;
+    }
+    function handleVowel(v) {
+      if (!st.cho && !st.jung && !st.jong) { st.jung = v; return; }
+      if (st.cho && !st.jung) { st.jung = v; return; }
+      if (st.jung && !st.jong) { commit(); st.jung = v; return; }
+      if (st.jong) {
+        const sp = JONG_SPLIT[st.jong];
+        if (sp) { st.jong = sp[0]; const moved = sp[1]; commit(); st.cho = moved; st.jung = v; }
+        else { const moved = st.jong; st.jong = ''; commit(); st.cho = moved; st.jung = v; }
+        return;
+      }
+      commit(); st.jung = v;
+    }
+    function insertHangul(ch) { if (isCons(ch)) handleCons(ch); else handleVowel(ch); render(); }
+    function insertPlain(ch) { commit(); committed += ch; render(); }
+
+    function backspace() {
+      if (st.jong) { const sp = JONG_SPLIT[st.jong]; st.jong = sp ? sp[0] : ''; }
+      else if (st.jung) st.jung = '';
+      else if (st.cho) st.cho = '';
+      else committed = committed.slice(0, -1);
+      render();
+    }
+    function doSearch(type) {
+      commit();
+      const q = committed.trim();
+      if (!q) return;
+      const base = type === 'news'
+        ? 'https://www.google.com/search?tbm=nws&q='
+        : 'https://www.google.com/search?q=';
+      window.open(base + encodeURIComponent(q), '_blank');
+    }
+
+    // ===== 키보드 레이아웃 =====
+    const LAYOUTS = {
+      ko: ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ','SEP',
+           'ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'],
+      en: 'q w e r t y u i o p SEP a s d f g h j k l SEP z x c v b n m'.split(' '),
+      num: '1 2 3 4 5 6 7 8 9 0 SEP . , - @ / ? ! : ~'.split(' ')
+    };
+    function renderKeyboard() {
+      const kb = document.getElementById('keyboard');
+      kb.innerHTML = '';
+      LAYOUTS[mode].forEach(k => {
+        if (k === 'SEP') { const s = document.createElement('div'); s.className = 'sep'; kb.appendChild(s); return; }
+        const b = document.createElement('button');
+        b.textContent = k;
+        b.dataset.key = k;
+        kb.appendChild(b);
+      });
+    }
+
+    document.getElementById('keyboard').addEventListener('click', e => {
+      const b = e.target.closest('button[data-key]');
+      if (!b) return;
+      const k = b.dataset.key;
+      if (mode === 'ko') insertHangul(k); else insertPlain(k);
+    });
+    document.querySelector('.controls').addEventListener('click', e => {
+      const b = e.target.closest('button[data-action]');
+      if (!b) return;
+      const a = b.dataset.action;
+      if (a === 'space') { commit(); committed += ' '; render(); }
+      else if (a === 'back') backspace();
+      else if (a === 'clear') { committed = ''; st = { cho:'', jung:'', jong:'' }; render(); }
+      else if (a === 'web') doSearch('web');
+      else if (a === 'news') doSearch('news');
+    });
+    document.querySelector('.modes').addEventListener('click', e => {
+      const b = e.target.closest('button[data-mode]');
+      if (!b) return;
+      commit();
+      mode = b.dataset.mode;
+      document.querySelectorAll('.modes button').forEach(x => x.classList.toggle('active', x === b));
+      renderKeyboard();
+      render();
+    });
+
+    renderKeyboard();
+    render();
   </script>
 </body>
 </html>
